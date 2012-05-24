@@ -1,0 +1,64 @@
+.plus50 {
+	margin-left: 3px;
+}
+#ponyupmenu {
+    position:relative;left:4px;
+    padding-left: 1px;
+}
+#ponyupmenu #sub {
+	font-size: 9px;
+	verticle-align: bottom;
+	display: inline;
+	float: none;
+}
+#ponyupmenu span {
+    overflow: hidden;
+    display: inline-block;
+    width: 1px;
+	float: left;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+#ponyupmenu:hover span {
+    width: 58px;
+}
+#ponyupmenu sub {
+    font-size: 10px;
+    line-height: 0px;
+}
+#puz_alertdiv {
+	background-color: #fff;
+	color: #A00;
+	font-weight: bold;
+	border: 2px solid #000;
+	position: fixed;
+	display: none;
+	right: 100px;
+	padding: 5px;
+	opacity: 0.8;
+}
+#puz_eye {
+	background: url('http://zashy.bitbucket.org/resources/eye.png') no-repeat left top;
+	width: 77%;
+	height: 360px;
+	position: fixed;
+	top: 30%;
+	left: 13%;
+	z-index: -1;
+	opacity: 0;
+}
+#puz_eye div {
+	font-weight: bold;
+	color: #fff;
+	position: absolute;
+	bottom: 50%;
+	right: 0;
+	width: 70px;
+	text-align: center;
+	background-color: #333;
+	padding: 6px;
+	border-radius: 15px;
+	box-shadow: 0 0 20px 3px #777;
+}
