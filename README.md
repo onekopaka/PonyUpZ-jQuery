@@ -1,4 +1,4 @@
-=PonyUpZ-jQuery=
+#PonyUpZ-jQuery#
 
 This is a fork of PonyUpz meant to use jQuery rather than Prototype.
 
