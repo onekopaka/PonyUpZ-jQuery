@@ -40,7 +40,7 @@ $("#lightboxOverlay").fadeOut(this.options.fadeDuration);return $("select, objec
 //fix namespace issues with insert function
 function ponychaninsert(a) {
 	//if(!ispage || quick_reply) {
-		var c=$jq('textarea[name="message"]')[0];
+		var c=$jq('textarea[name="message"]');
 		if(p.use_replybox && p.replybox.style.display != 'none'){
 			p.showreplyboxfromkey();
 			var m = p.replybox;
@@ -78,7 +78,7 @@ function ponychaninsert(a) {
 	return false;
 } 
 function fixinsertnamespace(){
-	$jq('.reflink').each(function(link){
+	$jq().each($jq('.reflink'), function(link){
 		link = link.down('a',1);
 		link.onclick = function(){ return ponychaninsert('>>' +link.innerHTML +'\n'); }
 	});
@@ -160,7 +160,7 @@ var PonyPost = Class.create({
 		p.tempdiv = document.createElement('div');
 		//pull out replies
 		if(p.showreplies){
-			$jq('#'+postnode.id+' blockquote a').each(function(replylink){
+			$jq().each($jq('#'+postnode.id+' blockquote a'), function(replylink){
 				if(replylink.className.match(/ref/) && this.postid != p.opid){
 					var postid_to = (replylink.onclick != null) ? replylink.onclick.toString().replace(/[^0-9]/g, '') : 0;
 					p.tempdiv.innerHTML = '<a class="ref|'+p.board+'|'+p.opid+'|'+this.postid+'" onclick="return highlight('+this.postid+', true);" href="#'+this.postid+'">&gt;&gt;'+this.postid+'</a>';
@@ -178,9 +178,9 @@ var PonyPost = Class.create({
 });
 function eliminateDuplicates(arr) {
 	var i,
-	    len=arr.length,
-	    out=[],
-	    obj={};
+		 len=arr.length,
+		 out=[],
+		 obj={};
 
 	for (i=0;i<len;i++) {
 		obj[arr[i]]=0;
@@ -195,8 +195,8 @@ function eliminateDuplicates(arr) {
 var Ponyup = Class.create ({
 	posts: new Hash(),
 	replies: new Hash(),
-    	board: '',
-    	opid: null,
+		board: '',
+		opid: null,
 	multi_reply: true,
 	hide_trips: true,
 	animate_gifs: true,
@@ -230,17 +230,17 @@ var Ponyup = Class.create ({
 	autoupdate_timer: 30,
 	postform_name: null,
 	name_orig_bg: null,
-     replybox: null,
-     replybutton: null,
-     rbreplybutton: null,
-     replyboxdiv: null,
-     replyboxclose: null,
-     fileinput: null,
-     thread: null,
-     message: null,
-     controlpanel: null,
-     dlframe: null,
-     cookie_props: ['hide_trips','animate_gifs','one_click_save','use_replybox','replybox_name','replybox_email','replybox_subject','replybox_spoiler','use_lightbox','show_tineye_reverse_image_search', 'show_google_reverse_image_search', 'show_download_link', 'show_exif_link','show_userimage_date','autoupdate_thread','play_sound','use_altz','bot_page_after_post','showreplies','settings_per_board'],
+	  replybox: null,
+	  replybutton: null,
+	  rbreplybutton: null,
+	  replyboxdiv: null,
+	  replyboxclose: null,
+	  fileinput: null,
+	  thread: null,
+	  message: null,
+	  controlpanel: null,
+	  dlframe: null,
+	  cookie_props: ['hide_trips','animate_gifs','one_click_save','use_replybox','replybox_name','replybox_email','replybox_subject','replybox_spoiler','use_lightbox','show_tineye_reverse_image_search', 'show_google_reverse_image_search', 'show_download_link', 'show_exif_link','show_userimage_date','autoupdate_thread','play_sound','use_altz','bot_page_after_post','showreplies','settings_per_board'],
 	//Constructor
 	initialize: function(){
 		this.dlframe = document.createElement('iframe');
@@ -248,7 +248,7 @@ var Ponyup = Class.create ({
 		this.dlframe.style.height = '0px';
 		this.dlframe.id = 'oneclickdl';
 		$jq('body').appendChild(this.dlframe);
-		this.thread = $jq('form div[id*="thread"]')[0];
+		this.thread = $jq('form div[id*="thread"]');
 		this.board = window.location.toString().split('/')[4];
 
 	/* Cookie */
@@ -303,7 +303,7 @@ var Ponyup = Class.create ({
 		}
 	/* Control Panel */	
 		var baritem = '<a id="ponyupmenu" class="adminbaritem" >'+ uparrow +'</a>';
-		this.adminbar = $jq('.adminbar')[0];
+		this.adminbar = $jq('.adminbar');
 		this.adminbar.innerHTML = baritem + this.adminbar.innerHTML;
 		this.controlpanel = document.createElement('div');
 		this.cpinner = document.createElement('div');
@@ -378,8 +378,8 @@ var Ponyup = Class.create ({
 			this.helpscreen.hide();
 		});
 
-		$jq('c_screenshot_hide').click(function(event){
-			this.posts.each(function(pair){ 
+		$jq('c_screenshot_hide').click(function(){
+			$jq().each(this.posts, function(pair){ 
 				postid=pair.key;
 				post = pair.value;
 				if(postid!=p.opid){
@@ -391,8 +391,8 @@ var Ponyup = Class.create ({
 				}
 			});
 		});
-		$jq('c_screenshot_show').click(function(event){
-			this.posts.each(function(pair){ 
+		$jq('c_screenshot_show').click(function(){
+			$jq().each(this.posts, function(pair){ 
 				postid=pair.key;
 				post = pair.value;
 				post.postnode.parentNode.parentNode.show();
@@ -400,7 +400,7 @@ var Ponyup = Class.create ({
 		});
 
 		this.pmenu = $jq('ponyupmenu');
-		Event.observe(this.pmenu,'click',function(event){
+		this.pmenu.click(function(){
 			if(this.controlpanel.style.display == "none"){
 				this.pmenu.innerHTML = downarrow;
 				this.controlpanel.style.display = "block";
@@ -410,18 +410,18 @@ var Ponyup = Class.create ({
 				this.controlpanel.style.display = "none";
 			}
 			return false;
-		}.bind(this));
+		});
 		for(i=0; i<this.cookie_props.length; i++){
-			Event.observe($jq(this.cookie_props[i]+'_c'),'change',function(event){
-				var e=Event.element(event);
+			$jq(this.cookie_props[i]+'_c').change(function(event){
+				var e=event.target;
 				var prop = e.id.replace(/_c$/,"");
 				if(e.checked) this[prop]=true;
 				else this[prop]=false;
 				Cookie.setData(prop, this[prop]);
-			}.bind(this));
+			});
 		}
-		Event.observe($jq('settings_per_board_c'),'change',function(event){
-			var e=Event.element(event);
+		$jq('settings_per_board_c').change(function(event){
+			var e=event.target;
 			var prop = e.id.replace(/_c$/,"");
 			if(e.checked) this[prop]=true;
 			else this[prop]=false;
@@ -430,9 +430,9 @@ var Ponyup = Class.create ({
 			Cookie.retrieve();
 			Cookie.setData(prop, this[prop]);
 			window.location.reload();
-		}.bind(this));
-		Event.observe($('autoupdate_timer_c'),'blur',function(event){
-			var e=Event.element(event);
+		});
+		$jq('autoupdate_timer_c').blur(function(event){
+			var e=event.target;
 			var prop = e.id.replace(/_c$/,"");
 			var tempvalue = Math.abs(e.value);
 			if(isNaN(tempvalue)){
@@ -448,13 +448,13 @@ var Ponyup = Class.create ({
 				this.autoupdate_timer = 15;
 			}
 			Cookie.setData(prop, this.autoupdate_timer);
-		}.bind(this));
-		Event.observe($('save_c'),'click',function(event){
-			var e=Event.element(event);
+		});
+		$jq('save_c').click(function(event){
+			var e=event.target;
 			window.location.reload();
-		}.bind(this));
+		});
 		Event.observe($('reset_c'),'click',function(event){
-			var e=Event.element(event);
+			var e=event.target;
 			Cookie.init({name: 'ponyupmaster', path: '/', expires: 90});
 			Cookie.erase();
 			Cookie.init({name: 'ponyup', expires: 90});
@@ -899,8 +899,8 @@ var Ponyup = Class.create ({
 			});
 		}
 		Event.observe(post.replylink,'click',this.showreplybox.bind(this));
-    },
-    hide_trips_f: function(){
+	 },
+	 hide_trips_f: function(){
 		color = this.postform_name.getStyle('color');
 		// get style cookie and compare to Vinyl Trance
 		var begin =  document.cookie.indexOf("pcstyle=") + "pcstyle=".length;
@@ -914,8 +914,8 @@ var Ponyup = Class.create ({
 			this.postform_name.setStyle({backgroundColor:color});
 			this.rbname.setStyle({backgroundColor:  '#000'});
 		}
-    },
-    show_trips: function(){
+	 },
+	 show_trips: function(){
 		var begin =  document.cookie.indexOf("pcstyle=") + "pcstyle=".length;
 		var end = document.cookie.indexOf(";", begin) != -1 ? document.cookie.indexOf(";", begin) : document.cookie.length;
 		var themeName = document.cookie.substring(begin, end);
@@ -926,8 +926,8 @@ var Ponyup = Class.create ({
 			this.postform_name.setStyle({backgroundColor:this.name_orig_bg});
 			this.rbname.setStyle({backgroundColor: '#fff'});
 		}
-    },
-    showreplyboxfromkey: function(event){
+	 },
+	 showreplyboxfromkey: function(event){
 		if(this.use_replybox == false) return;
 		var pos = window.pageYOffset + 130;
 		this.replyboxdiv.style.top = pos + 'px';
@@ -935,23 +935,23 @@ var Ponyup = Class.create ({
 		this.replyboxdiv.insertBefore(this.fileinput,$('fileinputbefore'));
 		this.fileinputph.style.display = 'inline';
 		this.replyboxdiv.show();
-    },
-    showreplybox: function(event){
+	 },
+	 showreplybox: function(event){
 		if(this.use_replybox == false) return;
-		var e=Event.element(event);
+		var e=event.target;
 		offset = e.cumulativeOffset();
 		this.replyboxdiv.style.top = offset.top +'px';
 		this.replybox.value = this.message.value;
 		this.replyboxdiv.insertBefore(this.fileinput,$('fileinputbefore'));
 		this.fileinputph.style.display = 'inline';
 		this.replyboxdiv.show();
-    },
-    hidereplybox: function(event){
+	 },
+	 hidereplybox: function(event){
 		if(this.use_replybox == false) return;
 		$('changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
 		this.fileinputph.style.display = 'none';
 		this.replyboxdiv.hide();
-    },
+	 },
 });
 var p = null;
 /*document.observe("dom:loaded", function(event) {
