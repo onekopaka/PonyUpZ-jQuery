@@ -37,6 +37,14 @@ if(this.currentImageIndex>0)$lightbox.find(".lb-prev").show();if(this.currentIma
 key=String.fromCharCode(keycode).toLowerCase();if(keycode===KEYCODE_ESC||key.match(/x|o|c/))this.end();else if(key==="p"||keycode===KEYCODE_LEFTARROW){if(this.currentImageIndex!==0)this.changeImage(this.currentImageIndex-1)}else if(key==="n"||keycode===KEYCODE_RIGHTARROW)if(this.currentImageIndex!==this.album.length-1)this.changeImage(this.currentImageIndex+1)};Lightbox.prototype.end=function(){this.disableKeyboardNav();$(window).off("resize",this.sizeOverlay);$("#lightbox").fadeOut(this.options.fadeDuration);
 $("#lightboxOverlay").fadeOut(this.options.fadeDuration);return $("select, object, embed").css({visibility:"visible"})};return Lightbox}();$(function(){var lightbox,options;options=new LightboxOptions;return lightbox=new Lightbox(options)})}).call(this);
 
+//////////////////////
+/* jQuery.scrollTo  */
+//////////////////////
+(function(d){var k=d.scrollTo=function(a,i,e){d(window).scrollTo(a,i,e)};k.defaults={axis:"xy",duration:parseFloat(d.fn.jquery)>=1.3?0:1};k.window=function(a){return d(window)._scrollable()};d.fn._scrollable=function(){return this.map(function(){var a=this,i=!a.nodeName||d.inArray(a.nodeName.toLowerCase(),["iframe","#document","html","body"])!=-1;if(!i)return a;var e=(a.contentWindow||a).document||a.ownerDocument||a;return d.browser.safari||e.compatMode=="BackCompat"?e.body:e.documentElement})};d.fn.scrollTo=
+function(n,j,b){if(typeof j=="object"){b=j;j=0}if(typeof b=="function")b={onAfter:b};if(n=="max")n=9E9;b=d.extend({},k.defaults,b);j=j||b.speed||b.duration;b.queue=b.queue&&b.axis.length>1;if(b.queue)j/=2;b.offset=p(b.offset);b.over=p(b.over);return this._scrollable().each(function(){var q=this,r=d(q),f=n,s,g={},u=r.is("html,body");switch(typeof f){case "number":case "string":if(/^([+-]=)?\d+(\.\d+)?(px|%)?$/.test(f)){f=p(f);break}f=d(f,this);case "object":if(f.is||f.style)s=(f=d(f)).offset()}d.each(b.axis.split(""),
+function(a,i){var e=i=="x"?"Left":"Top",h=e.toLowerCase(),c="scroll"+e,l=q[c],m=k.max(q,i);if(s){g[c]=s[h]+(u?0:l-r.offset()[h]);if(b.margin){g[c]-=parseInt(f.css("margin"+e))||0;g[c]-=parseInt(f.css("border"+e+"Width"))||0}g[c]+=b.offset[h]||0;if(b.over[h])g[c]+=f[i=="x"?"width":"height"]()*b.over[h]}else{var o=f[h];g[c]=o.slice&&o.slice(-1)=="%"?parseFloat(o)/100*m:o}if(/^\d+$/.test(g[c]))g[c]=g[c]<=0?0:Math.min(g[c],m);if(!a&&b.queue){if(l!=g[c])t(b.onAfterFirst);delete g[c]}});t(b.onAfter);function t(a){r.animate(g,
+j,b.easing,a&&function(){a.call(this,n,b)})}}).end()};k.max=function(a,i){var e=i=="x"?"Width":"Height",h="scroll"+e;if(!d(a).is("html,body"))return a[h]-d(a)[e.toLowerCase()]();var c="client"+e,l=a.ownerDocument.documentElement,m=a.ownerDocument.body;return Math.max(l[h],m[h])-Math.min(l[c],m[c])};function p(a){return typeof a=="object"?a:{top:a,left:a}}})(jQuery);
+
 //fix namespace issues with insert function
 function ponychaninsert(a) {
 	//if(!ispage || quick_reply) {
@@ -78,7 +86,7 @@ function ponychaninsert(a) {
 	return false;
 } 
 function fixinsertnamespace(){
-	$jq().each($jq('.reflink'), function(link){
+	$jq.each($jq('.reflink'), function(link){
 		link = link.down('a',1);
 		link.onclick = function(){ return ponychaninsert('>>' +link.innerHTML +'\n'); }
 	});
@@ -160,7 +168,7 @@ var PonyPost = Class.create({
 		p.tempdiv = document.createElement('div');
 		//pull out replies
 		if(p.showreplies){
-			$jq().each($jq('#'+postnode.id+' blockquote a'), function(replylink){
+			$jq.each($jq('#'+postnode.id+' blockquote a'), function(replylink){
 				if(replylink.className.match(/ref/) && this.postid != p.opid){
 					var postid_to = (replylink.onclick != null) ? replylink.onclick.toString().replace(/[^0-9]/g, '') : 0;
 					p.tempdiv.innerHTML = '<a class="ref|'+p.board+'|'+p.opid+'|'+this.postid+'" onclick="return highlight('+this.postid+', true);" href="#'+this.postid+'">&gt;&gt;'+this.postid+'</a>';
@@ -320,10 +328,10 @@ var Ponyup = Class.create ({
 		this.cpinner.setStyle({
 			maxHeight:'220px',overflow:'auto',marginTop:'10px'
 		});
-		$jq().keyup(function(e){
+		$jq(body).keyup(function(e){
 			if(e.which == 17) isCtrl=false;
 		});
-		$jq().keydown(function(e){
+		$jq(body).keydown(function(e){
 			if(e.which == 17) isCtrl=true;
 			if(e.which == 81 && isCtrl == true) { //run code for CTRL+Q
 				this.showreplyboxfromkey();
@@ -379,7 +387,7 @@ var Ponyup = Class.create ({
 		});
 
 		$jq('c_screenshot_hide').click(function(){
-			$jq().each(this.posts, function(pair){ 
+			$jq.each(this.posts, function(pair){ 
 				postid=pair.key;
 				post = pair.value;
 				if(postid!=p.opid){
@@ -392,7 +400,7 @@ var Ponyup = Class.create ({
 			});
 		});
 		$jq('c_screenshot_show').click(function(){
-			$jq().each(this.posts, function(pair){ 
+			$jq.each(this.posts, function(pair){ 
 				postid=pair.key;
 				post = pair.value;
 				post.postnode.parentNode.parentNode.show();
@@ -487,12 +495,12 @@ var Ponyup = Class.create ({
 		if(!this.ispage) {
 			Insertion.After($$('.reflink')[0], '<span class="extrabtns"></span>');
 			
-			$jq().each($jq('.extrabtns'), function(extrabtns) {
+			$jq.each($jq('.extrabtns'), function(extrabtns) {
 				extrabtns.observe('mouseover', function(event) {
 					$$('.navbar')[1].setStyle({width: '2500px'});
 				})
 			});
-			$jq().each($jq('.extrabtns'), function(extrabtns) {
+			$jq.each($jq('.extrabtns'), function(extrabtns) {
 				extrabtns.observe('mouseout', function(event) {
 					$$('.navbar')[1].setStyle({width: 'auto'});
 				})
@@ -501,17 +509,17 @@ var Ponyup = Class.create ({
 
 	/* Iterate Posts */
 		//add in OP
-		$jq().each($jq('form div[id*="thread"]'), function(reply){
+		$jq.each($jq('form div[id*="thread"]'), function(reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			if(!this.opid) this.opid=postid;
 			this.posts.set(postid,new PonyPost(reply,postid,this));
 		});
-		$jq().each($jq('td.reply'), function(reply){
+		$jq.each($jq('td.reply'), function(reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			this.posts.set(postid,new PonyPost(reply,postid,this));
 		});
 		//add in "highlight"
-		$jq().each($jq('td.highlight'), function(reply){
+		$jq.each($jq('td.highlight'), function(reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			this.posts.set(postid,new PonyPost(reply,postid,this));
 		});
@@ -678,7 +686,7 @@ var Ponyup = Class.create ({
 				$jq('#changefileinputtd').insertBefore(this.fileinput,$jq('#changefileinputtd').firstChild);
 				this.hidereplybox();
 				this.fileinputph.style.display = 'none';
-				$jq().scrollTo($jq('div.logo'));
+				$jq.scrollTo($jq('div.logo'));
 			});
 			this.replyboxdiv.appendChild(document.createElement("br"));
 			var br = document.createElement("span");
@@ -707,11 +715,11 @@ var Ponyup = Class.create ({
 				if(!this.ispage)
 					this.rbname.setStyle({backgroundColor:'#000'});
 			}
-			Event.observe(this.postform_name,'focus',this.show_trips.bind(this));
-			Event.observe(this.postform_name,'blur',this.hide_trips_f.bind(this));
+			this.postform_name.focus(this.show_trips);
+			this.postform_name.blur(this.hide_trips_f);
 			if(!this.ispage) {
-				Event.observe(this.rbname,'focus',this.show_trips.bind(this));
-				Event.observe(this.rbname,'blur',this.hide_trips_f.bind(this));
+				this.rbname.focus(this.show_trips);
+				this.rbname.blur(this.hide_trips_f);
 			}
 		}
 
@@ -729,7 +737,7 @@ var Ponyup = Class.create ({
 			autoupdater_source.id = "newpage";
 			$jq('body').appendChild(autoupdater_source);
 			//find the last span if it's there and move it
-			var lastChild = $jq('form div[id*="thread"]>span:last-child')[0];
+			var lastChild = $jq('form div[id*="thread"]>span:last-child');
 			if(lastChild){
 				this.thread.parentNode.insertBefore(lastChild,this.thread.next());
 			}
@@ -739,12 +747,12 @@ var Ponyup = Class.create ({
 				reqtime = new Date();
 
 				var url = window.location.toString().split('#')[0];
-				new Ajax.Request(url, {
+				$jq.ajax(url, {
 					method: 'get',
 					onSuccess: function(transport) {
 						//load it into the dom so we can use css selectors
 						matcharray = transport.responseText.match(/<body>([\s\S]*)<\/body>/ig);
-						$('newpage').innerHTML = matcharray[0]; 
+						$jq('newpage').innerHTML = matcharray[0]; 
 
 						//Get the last post id that equals
 						currkeys = p.posts.keys();
@@ -753,13 +761,13 @@ var Ponyup = Class.create ({
 
 						//parse
 						p.newposts = new Hash();
-						$$('#newpage td.reply').each(function(reply){
+						$jq.each($jq('#newpage td.reply'), function(reply){
 							postid = reply.id.replace(/[^0-9]/g, '');
 							//console.log('post id is ' + postid, 'last postid is ' + lastpostid);
 							if(Number(postid) > Number(lastpostid)){
 								p.newposts.set(postid,new PonyPost(reply,postid,p));
 							}
-						},p);
+						});
 
 						//append the new and run our script on these posts
 						p.newposts.each(function(pair){
@@ -791,7 +799,7 @@ var Ponyup = Class.create ({
 		}
 	},
 	iterate_posts: function(){
-		this.posts.each(function(pair){ 
+		$jq.each(this.posts, function(pair){ 
 			postid=pair.key;
 			post = pair.value;
 			//add lightbox
@@ -853,7 +861,7 @@ var Ponyup = Class.create ({
 		}
 		
 		if(p.showreplies){
-			$$('#reply'+postid+' blockquote a').each(function(replylink){
+			$jq.each($jq('#reply'+postid+' blockquote a'), function(replylink){
 				if(replylink.className.match(/ref/) && postid != p.opid){
 					var postid_to = (replylink.onclick != null) ? replylink.onclick.toString().replace(/[^0-9]/g, '') : 0;
 					/*p.tempdiv.innerHTML = '<a class="ref|'+p.board+'|'+p.opid+'|'+postid+'" onclick="return highlight('+postid+', true);" href="#'+postid+'">&gt;&gt;'+postid+'</a>';
@@ -886,7 +894,7 @@ var Ponyup = Class.create ({
 						p.posts.get(postid_to).extrabtns.appendChild(repliesspan);
 					}
 				}
-			}.bind(this));
+			});
 			$$('.extrabtns').each(function(extrabtns) {
 				extrabtns.observe('mouseover', function(event) {
 					$$('.navbar')[1].setStyle({width: '2500px'});
