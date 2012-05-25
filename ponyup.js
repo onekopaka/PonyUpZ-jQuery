@@ -45,6 +45,13 @@ function(n,j,b){if(typeof j=="object"){b=j;j=0}if(typeof b=="function")b={onAfte
 function(a,i){var e=i=="x"?"Left":"Top",h=e.toLowerCase(),c="scroll"+e,l=q[c],m=k.max(q,i);if(s){g[c]=s[h]+(u?0:l-r.offset()[h]);if(b.margin){g[c]-=parseInt(f.css("margin"+e))||0;g[c]-=parseInt(f.css("border"+e+"Width"))||0}g[c]+=b.offset[h]||0;if(b.over[h])g[c]+=f[i=="x"?"width":"height"]()*b.over[h]}else{var o=f[h];g[c]=o.slice&&o.slice(-1)=="%"?parseFloat(o)/100*m:o}if(/^\d+$/.test(g[c]))g[c]=g[c]<=0?0:Math.min(g[c],m);if(!a&&b.queue){if(l!=g[c])t(b.onAfterFirst);delete g[c]}});t(b.onAfter);function t(a){r.animate(g,
 j,b.easing,a&&function(){a.call(this,n,b)})}}).end()};k.max=function(a,i){var e=i=="x"?"Width":"Height",h="scroll"+e;if(!d(a).is("html,body"))return a[h]-d(a)[e.toLowerCase()]();var c="client"+e,l=a.ownerDocument.documentElement,m=a.ownerDocument.body;return Math.max(l[h],m[h])-Math.min(l[c],m[c])};function p(a){return typeof a=="object"?a:{top:a,left:a}}})(jQuery);
 
+///////////////////////
+/* Digg Class class  */
+///////////////////////
+(function($){Class={create:function(){var s=arguments.length>0&&arguments[arguments.length-1].constructor==Boolean?arguments[arguments.length-1]:false;var c=s?{}:function(){this.init.apply(this,arguments)};var methods={ns:[],supers:{},init:function(){},namespace:function(ns){if(!ns)return null;var _this=this;if(ns.constructor==Array){$.each(ns,function(){_this.namespace.apply(_this,[this])});return}else if(ns.constructor==Object){for(var key in ns)if([Object,Function].indexOf(ns[key].constructor)>
+-1){if(!this.ns)this.ns=[];this.ns[key]=ns[key];this.namespace.apply(this,[key])}return}var levels=ns.split(".");var nsobj=this.prototype?this.prototype:this;$.each(levels,function(){nsobj[this]=_this.ns[this]||nsobj[this]||window[this]||Class.create(true);delete _this.ns[this];nsobj=nsobj[this]});return nsobj},create:function(){var args=Array.prototype.slice.call(arguments);var name=args.shift();var temp=Class.create.apply(Class,args);var ns={};ns[name]=temp;this.namespace(ns)},sup:function(){try{var caller=
+this.sup.caller.name;this.supers[caller].apply(this,arguments)}catch(noSuper){return false}}};s?delete methods.init:null;$.extend(c,methods);if(!s)$.extend(c.prototype,methods);var extendee=s?c:c.prototype;$.each(arguments,function(){if(this.constructor==Object||typeof this.init!=undefined)for(i in this){if(extendee[i]&&extendee[i].constructor==Function&&["namespace","create","sup"].indexOf(i)==-1){this[i].name=extendee[i].name=i;extendee.supers[i]=extendee[i]}extendee[i]=this[i]}});return c}}})(jQuery);
+
 //fix namespace issues with insert function
 function ponychaninsert(a) {
 	//if(!ispage || quick_reply) {
