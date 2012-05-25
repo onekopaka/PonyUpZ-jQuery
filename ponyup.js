@@ -107,8 +107,7 @@ function ponychaninsert(a) {
 } 
 function fixinsertnamespace(){
 	$jq.each($jq('.reflink'), function(index, link){
-		console.log(link);
-		link = link.children('a')[1];	
+		link = $jq(link).children('a')[1];	
 		link.onclick = function(){ return ponychaninsert('>>' +link.innerHTML +'\n'); }
 	});
 }
