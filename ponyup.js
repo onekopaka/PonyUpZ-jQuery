@@ -60,8 +60,8 @@ var Cookie={data:{},options:{expires:1,domain:"",path:"",secure:!1},init:functio
 	//  Configurationl
 	//
 	LightboxOptions = Object.extend({
-		fileLoadingImage: "http://zashy.bitbucket.org/resources/loading.gif",
-		fileBottomNavCloseImage:  "http://zashy.bitbucket.org/resources/closelabel.gif",
+		fileLoadingImage: "http://ponyup.theoks.net/loading.gif",
+		fileBottomNavCloseImage:  "http://ponyup.theoks.net/closelabel.gif",
 		overlayOpacity: 0.8,   // controls transparency of shadow overlay
 		scrollToElem: true,
 		animate: true,         // toggles resizing animations
@@ -1161,11 +1161,11 @@ var Ponyup = Class.create ({
 		this.controlpanel.id = 'ponyupcpanel';	
 		this.cpinner.id = 'cpinner';	
 		this.controlpanel.setStyle({
-			background:'#862667 url(\'http://zashy.bitbucket.org/resources/alwayswatching.png\') no-repeat top right',position:'fixed',right:'62px',top:'33px',color:'#fff',padding:'23px 10px 10px 10px',display:'none',fontSize:'15px',fontFamily:'Sans-serif',width:'335px'
+			background:'#862667 url(\'http://ponyup.theoks.net/alwayswatching.png\') no-repeat top right',position:'fixed',right:'62px',top:'33px',color:'#fff',padding:'23px 10px 10px 10px',display:'none',fontSize:'15px',fontFamily:'Sans-serif',width:'335px'
 		});
 		if(navigator.userAgent.match(/chrome/i)){
 			this.controlpanel.setStyle({
-				background:'#862667 url(\'http://zashy.bitbucket.org/resources/alwayswatching.png\') no-repeat top right',position:'fixed',right:'62px',top:'33px',color:'#fff',padding:'23px 10px 10px 10px',display:'none',fontSize:'15px',fontFamily:'Sans-serif',width:'335px'
+				background:'#862667 url(\'http://ponyup.theoks.net/alwayswatching.png\') no-repeat top right',position:'fixed',right:'62px',top:'33px',color:'#fff',padding:'23px 10px 10px 10px',display:'none',fontSize:'15px',fontFamily:'Sans-serif',width:'335px'
 			});
 		}
 		this.cpinner.setStyle({
@@ -1192,7 +1192,7 @@ var Ponyup = Class.create ({
 		this.controlpanel.innerHTML += "<i>Thread Saver Utility</i><br><input type='button' id='c_screenshot_hide' value='Hide Unchecked Posts' style='margin-bottom:5px;margin-top:5px'><br>";
 		this.controlpanel.innerHTML += "<input type='button' id='c_screenshot_show' value='Show All Posts'><br>";
 		this.controlpanel.innerHTML += "<br><a id='helpscreen_link' href='javascript:void(0)' style='color:white;'>> Help Screen and Shortcut Keys</a>";
-		this.controlpanel.innerHTML += "<br><a href='http://www.ponychan.net/chan/meta/res/40837.html' style='color:white'>&gt; Read Update Log Here</a>";
+		this.controlpanel.innerHTML += "<br>Update Log coming soon..";
 		this.controlpanel.innerHTML += "<br><div style='padding:3px;margin:5px 0px;color:black;font-size:18px;font-weight:400;color:white;text-shadow: black 0.1em 0.1em 0.2em'>Always Watching Edition</div><br>";
 		this.controlpanel.innerHTML += "<input type='button' id='save_c' value='Save Settings'>";
 		this.controlpanel.innerHTML += "<input style='float:right;position:relative;left:3px;' type='button' id='reset_c' value='RESET Settings'><br>";

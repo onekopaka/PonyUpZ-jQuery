@@ -13,8 +13,8 @@
 #prevLink, #nextLink{ width: 49%; height: 100%; background-image: url(data:image/gif;base64,AAAA); /* Trick IE into showing hover */ display: block; }
 #prevLink { left: 0; float: left;}
 #nextLink { right: 0; float: right;}
-#prevLink:hover, #prevLink:visited:hover { background: url(../images/prevlabel.gif) left 15% no-repeat; }
-#nextLink:hover, #nextLink:visited:hover { background: url(../images/nextlabel.gif) right 15% no-repeat; }
+#prevLink:hover, #prevLink:visited:hover { background: url(prevlabel.gif) left 15% no-repeat; }
+#nextLink:hover, #nextLink:visited:hover { background: url(nextlabel.gif) right 15% no-repeat; }
 
 #imageDataContainer{ font-size: 1.2em; background-color: #fff; margin: 0 auto; overflow: auto; width: 100%	; }
 
