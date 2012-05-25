@@ -5,7 +5,7 @@
 var Builder={NODEMAP:{AREA:"map",CAPTION:"table",COL:"table",COLGROUP:"table",LEGEND:"fieldset",OPTGROUP:"select",OPTION:"select",PARAM:"object",TBODY:"table",TD:"table",TFOOT:"table",TH:"table",THEAD:"table",TR:"table"},node:function(a,b,e){var a=a.toUpperCase(),d=document.createElement(this.NODEMAP[a]||"div");try{d.innerHTML="<"+a+"></"+a+">"}catch(g){}var c=d.firstChild||null;c&&c.tagName.toUpperCase()!=a&&(c=c.getElementsByTagName(a)[0]);c||(c=document.createElement(a));if(c){if(b)if(this._isStringOrNumber(b)||
 b instanceof Array||b.tagName)this._children(c,b);else{var f=this._attributes(b);if(f.length){try{d.innerHTML="<"+a+" "+f+"></"+a+">"}catch(h){}c=d.firstChild||null;if(!c)for(attr in c=document.createElement(a),b)c[attr=="class"?"className":attr]=b[attr];c.tagName.toUpperCase()!=a&&(c=d.getElementsByTagName(a)[0])}}e&&this._children(c,e);return $(c)}},_text:function(a){return document.createTextNode(a)},ATTR_MAP:{className:"class",htmlFor:"for"},_attributes:function(a){var b=[];for(attribute in a)b.push((attribute in
 this.ATTR_MAP?this.ATTR_MAP[attribute]:attribute)+'="'+a[attribute].toString().escapeHTML().gsub(/"/,"&quot;")+'"');return b.join(" ")},_children:function(a,b){b.tagName?a.appendChild(b):typeof b=="object"?b.flatten().each(function(b){typeof b=="object"?a.appendChild(b):Builder._isStringOrNumber(b)&&a.appendChild(Builder._text(b))}):Builder._isStringOrNumber(b)&&a.appendChild(Builder._text(b))},_isStringOrNumber:function(a){return typeof a=="string"||typeof a=="number"},build:function(a){var b=this.node("div");
-$(b).update(a.strip());return b.down()},dump:function(a){typeof a!="object"&&typeof a!="function"&&(a=window);"A ABBR ACRONYM ADDRESS APPLET AREA B BASE BASEFONT BDO BIG BLOCKQUOTE BODY BR BUTTON CAPTION CENTER CITE CODE COL COLGROUP DD DEL DFN DIR DIV DL DT EM FIELDSET FONT FORM FRAME FRAMESET H1 H2 H3 H4 H5 H6 HEAD HR HTML I IFRAME IMG INPUT INS ISINDEX KBD LABEL LEGEND LI LINK MAP MENU META NOFRAMES NOSCRIPT OBJECT OL OPTGROUP OPTION P PARAM PRE Q S SAMP SCRIPT SELECT SMALL SPAN STRIKE STRONG STYLE SUB SUP TABLE TBODY TD TEXTAREA TFOOT TH THEAD TITLE TR TT U UL VAR".split(/\s+/).each(function(b){a[b]=
+$(b).update(a.strip());return b.children()},dump:function(a){typeof a!="object"&&typeof a!="function"&&(a=window);"A ABBR ACRONYM ADDRESS APPLET AREA B BASE BASEFONT BDO BIG BLOCKQUOTE BODY BR BUTTON CAPTION CENTER CITE CODE COL COLGROUP DD DEL DFN DIR DIV DL DT EM FIELDSET FONT FORM FRAME FRAMESET H1 H2 H3 H4 H5 H6 HEAD HR HTML I IFRAME IMG INPUT INS ISINDEX KBD LABEL LEGEND LI LINK MAP MENU META NOFRAMES NOSCRIPT OBJECT OL OPTGROUP OPTION P PARAM PRE Q S SAMP SCRIPT SELECT SMALL SPAN STRIKE STRONG STYLE SUB SUP TABLE TBODY TD TEXTAREA TFOOT TH THEAD TITLE TR TT U UL VAR".split(/\s+/).each(function(b){a[b]=
 function(){return Builder.node.apply(Builder,[b].concat($A(arguments)))}})}};
 
 /////////////
@@ -107,7 +107,7 @@ function ponychaninsert(a) {
 } 
 function fixinsertnamespace(){
 	$jq.each($jq('.reflink'), function(index, link){
-		link = link.down('a',1);
+		link = link.children('a')[1];	
 		link.onclick = function(){ return ponychaninsert('>>' +link.innerHTML +'\n'); }
 	});
 }
@@ -144,13 +144,13 @@ var PonyPost = Class.create({
 		//Grab and set all the properties we will be using on this page right now
 		this.postid = postid;
 		this.postnode = postnode;
-		this.thumb = postnode.down('span#thumb' + this.postid + ' img');
-		this.reflink = postnode.down('.reflink');
-		this.replylink = this.reflink.down('a',1);
+		this.thumb = postnode.children('span#thumb' + this.postid + ' img');
+		this.reflink = postnode.children('.reflink');
+		this.replylink = this.reflink.children('a')[1];
 		if(this.thumb){
 			this.imagelink = this.thumb.up('a');
 			this.imagetype = this.thumb.src.match(/.*\.([^.]+)$/)[1].toLowerCase();
-			this.filesizenode = postnode.down('.filesize');
+			this.filesizenode = postnode.children('.filesize');
 			this.userimagename = 'userimagename.png';
 			if(this.filesizenode.collectTextNodes()){
 				var temp = this.filesizenode.collectTextNodes().match(/, (.*\..*)/);
@@ -170,7 +170,7 @@ var PonyPost = Class.create({
 			if(p.show_download_link == true) span.innerHTML += ' <a href="' +  this.imagelink + '" target="_blank">[Download Image]</a>';
 			if(p.one_click_save == true) span.innerHTML += ' <a class="dllink">[+One Click Save]</a>';
 			this.filesizenode.appendChild(span);
-			this.dllink = span.down('.dllink');
+			this.dllink = span.children('.dllink');
 			if(p.one_click_save == true){
 				this.shortimagelink = this.imagelink.href.replace("http://www.ponychan.net/chan/","");
 				this.dllink.click(function(){
@@ -180,11 +180,11 @@ var PonyPost = Class.create({
 				});
 			}
 		}
-		this.user = postnode.down('.postername');
-		this.trip = postnode.down('.postertrip');
-		this.postdate = postnode.down('.posttime');
-		this.blockquote = postnode.down('blockquote').innerHTML;
-		this.extrabtns = postnode.down('.extrabtns');
+		this.user = postnode.children('.postername');
+		this.trip = postnode.children('.postertrip');
+		this.postdate = postnode.children('.posttime');
+		this.blockquote = postnode.children('blockquote').innerHTML;
+		this.extrabtns = postnode.children('.extrabtns');
 		p.tempdiv = document.createElement('div');
 		//pull out replies
 		if(p.showreplies){
@@ -411,7 +411,7 @@ var Ponyup = Class.create ({
 				postid=pair.key;
 				post = pair.value;
 				if(postid!=p.opid){
-					var checkbox = post.postnode.down('input[type=checkbox]');
+					var checkbox = post.postnode.children('input[type=checkbox]');
 					//console.log(checkbox);
 					if(!checkbox.checked){
 						post.postnode.parentNode.parentNode.hide();
@@ -585,8 +585,8 @@ var Ponyup = Class.create ({
 			this.nsfwfield.name='nsfw';
 			this.rbnsfw = this.nsfwfield.clone(true);
 			this.rbnsfw.id ='rbnsfw';
-			$('changefileinputtd').down('span').appendChild(this.nsfwfield);
-			$('changefileinputtd').down('span').innerHTML += '<label for="nsfw">NSFW</label>';*/
+			$('changefileinputtd').children('span').appendChild(this.nsfwfield);
+			$('changefileinputtd').children('span').innerHTML += '<label for="nsfw">NSFW</label>';*/
 			//this.rbreplybutton.style.cssFloat = "right";
 			if(navigator.userAgent.match(/chrome/i)){
 				this.rbreplybutton.style.marginLeft = "95px";
@@ -624,7 +624,7 @@ var Ponyup = Class.create ({
 				}.bindAsEventListener(this));
 			}
 			this.name_orig_bg = this.postform_name.getStyle('background-color');
-			this.message = this.form.down('textarea[name=message]');
+			this.message = this.form.children('textarea[name=message]');
 			this.replybox = this.message.cloneNode(true);
 			this.replybox.style.fontSize = '16px';
 			this.replybox.style.fontFamily = 'sans-serif';
@@ -795,7 +795,7 @@ var Ponyup = Class.create ({
 							post = pair.value;
 							//magic
 							var newreply = $('reply'+postid).up('table');
-							var newlink = $('reply'+postid).down('.reflink a',1);
+							var newlink = $('reply'+postid).children('.reflink a',1);
 							//console.log('link is ',newlink);
 							newlink.onclick = function(){ return ponychaninsert('>>' +newlink.innerHTML +'\n'); }
 							//Event.observe(newlink,'click',function(){ return ponychaninsert('>>' +newlink.innerHTML +'\n'); });
@@ -896,8 +896,8 @@ var Ponyup = Class.create ({
 					post_to = post_to.postnode;
 					var repliesspan = null;
 
-					if(post_to.down('.repliesspan')!=undefined){
-						repliesspan = post_to.down('.repliesspan');
+					if(post_to.children('.repliesspan')!=undefined){
+						repliesspan = post_to.children('.repliesspan');
 						repliesspan.innerHTML = '';
 					}
 					else {
