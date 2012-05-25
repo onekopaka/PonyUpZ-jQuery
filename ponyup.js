@@ -106,7 +106,7 @@ function ponychaninsert(a) {
 	return false;
 } 
 function fixinsertnamespace(){
-	$jq.each($jq('.reflink'), function(link){
+	$jq.each($jq('.reflink'), function(index, link){
 		link = link.down('a',1);
 		link.onclick = function(){ return ponychaninsert('>>' +link.innerHTML +'\n'); }
 	});
@@ -188,7 +188,7 @@ var PonyPost = Class.create({
 		p.tempdiv = document.createElement('div');
 		//pull out replies
 		if(p.showreplies){
-			$jq.each($jq('#'+postnode.id+' blockquote a'), function(replylink){
+			$jq.each($jq('#'+postnode.id+' blockquote a'), function(index, replylink){
 				if(replylink.className.match(/ref/) && this.postid != p.opid){
 					var postid_to = (replylink.onclick != null) ? replylink.onclick.toString().replace(/[^0-9]/g, '') : 0;
 					p.tempdiv.innerHTML = '<a class="ref|'+p.board+'|'+p.opid+'|'+this.postid+'" onclick="return highlight('+this.postid+', true);" href="#'+this.postid+'">&gt;&gt;'+this.postid+'</a>';
@@ -407,7 +407,7 @@ var Ponyup = Class.create ({
 		});
 
 		$jq('c_screenshot_hide').click(function(){
-			$jq.each(this.posts, function(pair){ 
+			$jq.each(this.posts, function(index, pair){ 
 				postid=pair.key;
 				post = pair.value;
 				if(postid!=p.opid){
@@ -420,7 +420,7 @@ var Ponyup = Class.create ({
 			});
 		});
 		$jq('c_screenshot_show').click(function(){
-			$jq.each(this.posts, function(pair){ 
+			$jq.each(this.posts, function(index, pair){ 
 				postid=pair.key;
 				post = pair.value;
 				post.postnode.parentNode.parentNode.show();
@@ -515,12 +515,12 @@ var Ponyup = Class.create ({
 		if(!this.ispage) {
 			Insertion.After($$('.reflink')[0], '<span class="extrabtns"></span>');
 			
-			$jq.each($jq('.extrabtns'), function(extrabtns) {
+			$jq.each($jq('.extrabtns'), function(index, extrabtns) {
 				extrabtns.observe('mouseover', function(event) {
 					$$('.navbar')[1].setStyle({width: '2500px'});
 				})
 			});
-			$jq.each($jq('.extrabtns'), function(extrabtns) {
+			$jq.each($jq('.extrabtns'), function(index, extrabtns) {
 				extrabtns.observe('mouseout', function(event) {
 					$$('.navbar')[1].setStyle({width: 'auto'});
 				})
@@ -529,17 +529,17 @@ var Ponyup = Class.create ({
 
 	/* Iterate Posts */
 		//add in OP
-		$jq.each($jq('form div[id*="thread"]'), function(reply){
+		$jq.each($jq('form div[id*="thread"]'), function(index, reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			if(!this.opid) this.opid=postid;
 			this.posts.set(postid,new PonyPost(reply,postid,this));
 		});
-		$jq.each($jq('td.reply'), function(reply){
+		$jq.each($jq('td.reply'), function(index, reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			this.posts.set(postid,new PonyPost(reply,postid,this));
 		});
 		//add in "highlight"
-		$jq.each($jq('td.highlight'), function(reply){
+		$jq.each($jq('td.highlight'), function(index, reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			this.posts.set(postid,new PonyPost(reply,postid,this));
 		});
