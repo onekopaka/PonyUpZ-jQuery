@@ -453,14 +453,14 @@ var Ponyup = Class.create ({
 			var e=event.target;
 			window.location.reload();
 		});
-		Event.observe($('reset_c'),'click',function(event){
+		$jq('reset_c').click(function(event){
 			var e=event.target;
 			Cookie.init({name: 'ponyupmaster', path: '/', expires: 90});
 			Cookie.erase();
 			Cookie.init({name: 'ponyup', expires: 90});
 			Cookie.erase();
 			window.location.reload();
-		}.bind(this));
+		});
 
 	/* Check if Page */
 		if(!window.location.toString().match(/\/res\//)){
@@ -505,16 +505,16 @@ var Ponyup = Class.create ({
 			postid = reply.id.replace(/[^0-9]/g, '');
 			if(!this.opid) this.opid=postid;
 			this.posts.set(postid,new PonyPost(reply,postid,this));
-		},this);
+		});
 		$jq().each($jq('td.reply'), function(reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			this.posts.set(postid,new PonyPost(reply,postid,this));
-		},this);
+		});
 		//add in "highlight"
 		$jq().each($jq('td.highlight'), function(reply){
 			postid = reply.id.replace(/[^0-9]/g, '');
 			this.posts.set(postid,new PonyPost(reply,postid,this));
-		},this);
+		});
 		
 		//console.log(this.replies);
 	
@@ -528,27 +528,27 @@ var Ponyup = Class.create ({
 			this.fileinputph.innerHTML = '[Show File Input]';
 			this.fileinputph.id = 'fileinputph';
 			this.fileinputph.style.display = 'none';
-			Event.observe(this.fileinputph,'click',function(event){
-				$('changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
+			this.fileinputph.click(function(event){
+				$jq('changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
 				this.hidereplybox();
 				this.fileinputph.style.display = 'none';
-			}.bind(this));
-			$('changefileinputtd').insertBefore(this.fileinputph,$('changefileinputtd').firstChild);
+			});
+			$jq('changefileinputtd').insertBefore(this.fileinputph,$('changefileinputtd').firstChild);
 			
-			this.replybutton = $$('#postform input[value=Reply]')[0];
+			this.replybutton = $jq('#postform input[value=Reply]');
 			this.rbreplybutton = this.replybutton.clone(true);
 			this.rbreplybutton.removeAttribute("accesskey");
 			this.replybutton.removeAttribute("accesskey");
-			this.namefield = $$('#postform input[name=name]')[0];
+			this.namefield = $jq('#postform input[name=name]');
 			this.rbname = this.namefield.clone(true);
 			this.rbname.removeAttribute("accesskey");
-			this.emailfield = $$('#postform input[name=em]')[0];
+			this.emailfield = $jq('#postform input[name=em]');
 			this.rbemail = this.emailfield.clone(true);
 			this.rbemail.removeAttribute("accesskey");
-			this.subjectfield = $$('#postform input[name=subject]')[0];
+			this.subjectfield = $jq('#postform input[name=subject]');
 			this.rbsubject = this.subjectfield.clone(true);
 			this.rbsubject.removeAttribute("accesskey");
-			this.spoilerfield = $$('#postform input[name=spoiler]')[0];
+			this.spoilerfield = $jq('#postform input[name=spoiler]');
 			this.rbspoiler = this.spoilerfield.clone(true);
 			this.rbspoiler.removeAttribute("accesskey");
 			this.rbspoiler.id ='rbspoiler';
@@ -566,14 +566,14 @@ var Ponyup = Class.create ({
 			else this.rbreplybutton.style.marginLeft = "21px";
 			
 			Event.observe(this.rbreplybutton,'click',function(event){
-				$('changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
+				$jq('#changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
 				this.fileinputph.style.display = 'none';
 				this.post_was_made = true;
 				Cookie.setData('post_was_made',true);
 				this.form.submit();
 			}.bind(this));
 			Event.observe(this.replybutton,'click',function(event){
-				$('changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
+				$jq('#changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
 				this.fileinputph.style.display = 'none';
 				this.post_was_made = true;
 				Cookie.setData('post_was_made',true);
@@ -587,7 +587,7 @@ var Ponyup = Class.create ({
 					/* $('postform') */
 					if(e.which == 18) isAlt=true;
 					if(e.altKey && e.which == 90 && isAlt) { //run code for ALT+Z
-						$('changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
+						$jq('#changefileinputtd').insertBefore(this.fileinput,$jq('#changefileinputtd').firstChild);
 						this.fileinputph.style.display = 'none';
 						this.post_was_made = true;
 						Cookie.setData('post_was_made',true);
@@ -606,17 +606,17 @@ var Ponyup = Class.create ({
 			/*Event.observe(this.replybox,'focus',function(event){
 				this.replybox.value = this.message.value;
 			}.bind(this));*/
-			Event.observe(this.replybox,'keyup',function(event){
+			this.replybox.keyup(function(event){
 				this.message.value = this.replybox.value;
-			}.bind(this));
-			Event.observe(this.replybox,'change',function(event){
+			});
+			this.replybox.change(function(event){
 				this.message.value = this.replybox.value;
-			}.bind(this));
+			});
 			tempdiv = document.createElement('div');
-			$$('body')[0].appendChild(tempdiv);
+			$jq('body').appendChild(tempdiv);
 			replyboxstr = "<div id='replyboxdiv' style='width:402px;position:absolute;right:20px;top:0px'><table style='width:400px;;padding:5px;'><tr><td style='font-weight:bold;float:left'>Reply Box (Draggable)</td><td id='gototop'>[ ▲ Go To Top ▲ ]</td><td id='replyboxclose' style='float:right; font-weight:bold'>X Close</td></tr></table></div>";
 			tempdiv.innerHTML = replyboxstr;
-			this.replyboxdiv = $('replyboxdiv');
+			this.replyboxdiv = $jq('#replyboxdiv');
 			this.replyboxdiv.hide();
 			if(this.replybox_name){
 				var label = document.createElement('label');
@@ -644,9 +644,9 @@ var Ponyup = Class.create ({
 				this.replyboxdiv.appendChild(label);
 				this.replyboxdiv.appendChild(this.rbsubject);
 				this.replyboxdiv.appendChild(document.createElement("br"));
-				Event.observe(this.rbsubject,'keyup',function(event){
+				this.rbsubject.keyup(function(event){
 					this.subjectfield.value = this.rbsubject.value;
-				}.bind(this));
+				});
 			}
 			if(this.replybox_spoiler){
 				var label = document.createElement('label');
@@ -654,10 +654,10 @@ var Ponyup = Class.create ({
 				this.replyboxdiv.appendChild(label);
 				this.replyboxdiv.appendChild(this.rbspoiler);
 				this.replyboxdiv.appendChild(document.createElement("br"));
-				Event.observe(this.rbspoiler,'change',function(event){
-					this.spoilerfield = $('spoiler');
+				this.rbspoiler.change(function(event){
+					this.spoilerfield = $jq('#spoiler');
 					this.spoilerfield.checked = this.rbspoiler.checked;
-				}.bind(this));
+				});
 			}
 			/*if(this.replybox_nsfw){
 				var label = document.createElement('label');
@@ -671,15 +671,15 @@ var Ponyup = Class.create ({
 				}.bind(this));
 			}*/
 			this.replyboxdiv.appendChild(this.replybox);
-			this.replyboxclose = $('replyboxclose');
-			new Draggable(this.replyboxdiv);
-			Event.observe(this.replyboxclose,'click',this.hidereplybox.bind(this));
-			Event.observe($('gototop'),'click',function(event){
-				$('changefileinputtd').insertBefore(this.fileinput,$('changefileinputtd').firstChild);
+			this.replyboxclose = $jq('#replyboxclose');
+			this.replyboxdiv.draggable();
+			this.replyboxclose.click(this.hidereplybox);
+			$jq('#gototop').click(function(event){
+				$jq('#changefileinputtd').insertBefore(this.fileinput,$jq('#changefileinputtd').firstChild);
 				this.hidereplybox();
 				this.fileinputph.style.display = 'none';
-				Element.scrollTo($$('div.logo')[0]);
-			}.bind(this));
+				$jq().scrollTo($jq('div.logo'));
+			});
 			this.replyboxdiv.appendChild(document.createElement("br"));
 			var br = document.createElement("span");
 			br.id = 'fileinputbefore';
@@ -727,9 +727,9 @@ var Ponyup = Class.create ({
 			var autoupdater_source = document.createElement('div');
 			autoupdater_source.style.display = 'none';
 			autoupdater_source.id = "newpage";
-			$$('body')[0].appendChild(autoupdater_source);
+			$jq('body').appendChild(autoupdater_source);
 			//find the last span if it's there and move it
-			var lastChild = $$('form div[id*="thread"]>span:last-child')[0];
+			var lastChild = $jq('form div[id*="thread"]>span:last-child')[0];
 			if(lastChild){
 				this.thread.parentNode.insertBefore(lastChild,this.thread.next());
 			}
