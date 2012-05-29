@@ -108,7 +108,7 @@ function ponychaninsert(a) {
 function fixinsertnamespace(){
 	$jq.each($jq('.reflink'), function(index, link){
 		link = $jq(link).children('a')[1];	
-		link.onclick = function(){ return ponychaninsert('>>' +link.innerHTML +'\n'); }
+		link.click(function(){ return ponychaninsert('>>' +link.innerHTML +'\n'); })
 	});
 }
 
@@ -221,7 +221,7 @@ function eliminateDuplicates(arr) {
 
 
 var Ponyup = Class.create ({
-	posts: new Hashtable(),
+	posts: {new Hashtable()},
 	replies: new Hashtable(),
 		board: '',
 		opid: null,
